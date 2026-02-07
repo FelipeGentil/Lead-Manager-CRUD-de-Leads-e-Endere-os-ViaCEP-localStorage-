@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./script.js" defer></script>
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+    <title>Cadastro de Leads</title>
+</head>
+<body>
+  <div class="app">
+    <header class="app__header">
+      <div>
+        <h1 class="app__title">Lead Manager</h1>
+        <p class="app__subtitle">CRUD de Leads + Endereços (ViaCEP + localStorage)</p>
+      </div>
+
+      <div class="app__stats">
+        <div class="stat">
+          <div class="stat__label">Leads</div>
+          <div class="stat__value" id="statLeads">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">Endereços</div>
+          <div class="stat__value" id="statEnderecos">0</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="grid">
+      <!-- colunna esquerda -->
+      <section class="col">
+        <div class="card">
+          <h2 class="card__title">Formulários</h2>
+
+          <form id="formulario" class="form">
+            <!-- Partes do lead -->
+            <div class="form__section">
+              <div class="form__sectionHeader">
+                <h3 class="form__sectionTitle">Lead</h3>
+                <div class="form__hint" id="leadModeHint"></div>
+              </div>
+
+              <label for="nomeId">Nome</label>
+              <input type="text" id="nomeId" class="input__nome" placeholder="Digite seu nome completo" />
+
+              <label for="telefoneId">Telefone</label>
+              <input type="text" id="telefoneId" class="input__tel" placeholder="(11) 99999-9999" />
+
+              <label for="emailId">E-mail</label>
+              <input type="email" id="emailId" class="input__email" placeholder="email@exemplo.com" />
+
+              <div class="form__actions">
+                <input type="button" class="btn btn--primary" value="Enviar" id="botaoCadastroId" />
+                <button type="button" class="btn btn--ghost" id="btnCancelarLead">Cancelar</button>
+              </div>
+            </div>
+
+            <!-- parte do endereço -->
+            <div class="form__section">
+              <div class="form__sectionHeader">
+                <h3 class="form__sectionTitle">Endereço</h3>
+                <div class="form__hint" id="endModeHint"></div>
+              </div>
+
+              <label for="cepId">CEP</label>
+              <div class="cepRow">
+                <input type="text" id="cepId" class="input__cep" placeholder="00000-000" />
+                <input type="button" id="btnBuscarCepId" class="btn btn--dark" value="Buscar CEP" />
+              </div>
+              <small id="cepMsgId" class="msg"></small>
+
+              <label for="ruaId">Rua</label>
+              <input type="text" id="ruaId" class="input__rua" />
+
+              <div class="twoCols">
+                <div>
+                  <label for="numeroId">Número</label>
+                  <input type="text" id="numeroId" class="input__num" />
+                </div>
+                <div>
+                  <label for="bairroId">Bairro</label>
+                  <input type="text" id="bairroId" class="input__bairro" />
+                </div>
+              </div>
+
+              <div class="twoCols">
+                <div>
+                  <label for="cidadeId">Cidade</label>
+                  <input type="text" id="cidadeId" class="input__cidade" />
+                </div>
+                <div>
+                  <label for="ufsId">UF</label>
+                  <select id="ufsId" class="select__uf" name="estado">
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="AC">Acre (AC)</option>
+                    <option value="AL">Alagoas (AL)</option>
+                    <option value="AP">Amapá (AP)</option>
+                    <option value="AM">Amazonas (AM)</option>
+                    <option value="BA">Bahia (BA)</option>
+                    <option value="CE">Ceará (CE)</option>
+                    <option value="DF">Distrito Federal (DF)</option>
+                    <option value="ES">Espírito Santo (ES)</option>
+                    <option value="GO">Goiás (GO)</option>
+                    <option value="MA">Maranhão (MA)</option>
+                    <option value="MT">Mato Grosso (MT)</option>
+                    <option value="MS">Mato Grosso do Sul (MS)</option>
+                    <option value="MG">Minas Gerais (MG)</option>
+                    <option value="PA">Pará (PA)</option>
+                    <option value="PB">Paraíba (PB)</option>
+                    <option value="PR">Paraná (PR)</option>
+                    <option value="PE">Pernambuco (PE)</option>
+                    <option value="PI">Piauí (PI)</option>
+                    <option value="RJ">Rio de Janeiro (RJ)</option>
+                    <option value="RN">Rio Grande do Norte (RN)</option>
+                    <option value="RS">Rio Grande do Sul (RS)</option>
+                    <option value="RO">Rondônia (RO)</option>
+                    <option value="RR">Roraima (RR)</option>
+                    <option value="SC">Santa Catarina (SC)</option>
+                    <option value="SP">São Paulo (SP)</option>
+                    <option value="SE">Sergipe (SE)</option>
+                    <option value="TO">Tocantins (TO)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form__actions">
+                <input type="button" class="btn btn--dark" value="Enviar" id="botaoEnderecoId" />
+                <button type="button" class="btn btn--ghost" id="btnCancelarEndereco">Cancelar</button>
+              </div>
+
+              <div class="form__note" id="leadSelecionadoHint"></div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- col direita -->
+      <section class="col">
+        <div class="card">
+          <div class="card__headerRow">
+            <h2 class="card__title">Leads</h2>
+            <input type="text" id="buscaLeadId" class="input input--search" placeholder="Buscar por nome/telefone..." />
+          </div>
+
+          <ul id="lista" class="list"></ul>
+          <div class="empty" id="emptyLeads">Nenhum lead cadastrado ainda.</div>
+        </div>
+
+        <div class="card">
+          <h2 class="card__title">Endereços do lead selecionado</h2>
+          <ul id="listaEnde" class="list"></ul>
+          <div class="empty" id="emptyEnderecos">Selecione um lead para ver/cadastrar endereços.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
